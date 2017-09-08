@@ -1,5 +1,6 @@
-package testCases_trivago;
+package TestCases_trivago;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -9,7 +10,8 @@ import org.testng.annotations.Test;
 import pageObject_trivago.Contact_Page;
 import pageObject_trivago.Home_Page;
 import automation_helper.Helper;
-import static org.testng.Assert.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class Contact_Us
 {
@@ -22,12 +24,14 @@ public class Contact_Us
         fullName = Helper.generateFullNeme();
         emailAddress = Helper.generateAutomaticEmail();
         message = Contact_Page.messageContent();
-        Helper.scrollDownWindowToContact(driver);
+        Home_Page.scrollDownWindowToContact(driver);
         Home_Page.linkContactUs(driver).click();
+        WebDriverWait wait = new WebDriverWait(driver,120);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("contactform")));
         Contact_Page.contactMessage(driver).sendKeys(message);
         Contact_Page.contactFullName(driver).sendKeys(fullName);
         Contact_Page.contactEmailAddress(driver).sendKeys(emailAddress);
-        Helper.scrollDownWindowToContact(driver);
+        Home_Page.scrollDownWindowToContact(driver);
         Contact_Page.submitButton(driver).click();
         String confirmationText = Contact_Page.confirmationMessage(driver);
         Assert.assertEquals(confirmationText,"Message Sent Successfully!");

@@ -1,8 +1,9 @@
-package testCases_trivago;
+package TestCases_trivago;
 
 import org.openqa.selenium.*;
 import java.util.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,17 +18,18 @@ public class Link_Checker
     @Test
     public void Check_For_Broken_Link() throws Exception
     {
-        WebElement allLink = driver.findElement(By.xpath("html/body"));
+        WebElement allLink = driver.findElement(By.id("content"));
         List<WebElement> total_links = allLink.findElements(By.tagName("a"));
         System.out.println("The Total number of link found: " + total_links.size());
         for (int i=1;i< total_links.size();i++)
         {
-            String url = total_links.get(i).getAttribute("href");
+            String url =total_links.get(i).getAttribute("href");
             statusCode = Helper.getResponseCode(url);
             if (statusCode==200)
                 System.out.println("URL:" +url+ " => Not Broken.");
             else
                 System.out.println("URL:" +url+ " => Broken.");
+            Assert.assertEquals(statusCode,200);
         }
     }
 

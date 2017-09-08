@@ -37,11 +37,4 @@ public class Helper
         return email;
     }
 
-    public static WebElement scrollDownWindowToContact(WebDriver driver)
-    {
-        element = driver.findElement(By.xpath("html/body/footer/div/div/div[2]/div/ul/li[2]/a"));
-        JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView(true);",element);
-        return null;
-    }
 }

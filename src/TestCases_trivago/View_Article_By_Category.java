@@ -1,4 +1,4 @@
-package testCases_trivago;
+package TestCases_trivago;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,17 +12,29 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageObject_trivago.*;
 
-
-public class View_Inspiration_Category
+public class View_Article_By_Category
 {
     public WebDriver driver;
 
-    @Test(priority = 0,enabled = true)
+    @Test(priority = 0, enabled = true)
+    public void View_Destination_In_USA() throws Exception
+    {
+        Home_Page.menuOption(driver).click();
+        Menu_Options.destinationInUsa(driver).click();
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("articleheader")));
+        WebElement element = driver.findElement(By.id("articleheader"));
+        String headerTitle= element.getText();
+        Assert.assertEquals(headerTitle,"USA");
+        String url = driver.getCurrentUrl();
+        Assert.assertEquals(url,"http://room5.trivago.com/destination/usa/");
+    }
+    @Test(priority = 1,enabled = true)
     public void View_Inspiration_By_Budget() throws Exception
     {
         Home_Page.menuOption(driver).click();
         Menu_Options.inspirationByBudget(driver).click();
-        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebDriverWait wait = new WebDriverWait(driver,60);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("articleheader")));
         WebElement element = driver.findElement(By.id("articleheader"));
         String headerTitle= element.getText();
@@ -31,25 +43,12 @@ public class View_Inspiration_Category
         Assert.assertEquals(url,"http://room5.trivago.com/theme/budget/");
     }
 
-    @Test(priority = 1,enabled = false)
-    public void View_Inspiration_By_Couples() throws Exception
-    {
-        Home_Page.menuOption(driver).click();
-        Menu_Options.inspirationByCouples(driver).click();
-        WebDriverWait wait = new WebDriverWait(driver,10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("articleheader")));
-        WebElement element = driver.findElement(By.id("articleheader"));
-        String headerTitle= element.getText();
-        Assert.assertEquals(headerTitle,"COUPLES");
-        String url = driver.getCurrentUrl();
-        Assert.assertEquals(url,"http://room5.trivago.com/theme/couples/");
-    }
-
     @BeforeMethod
     public void setUp() throws Exception
     {
         driver = new FirefoxDriver();
         driver.get("http://room5.trivago.com/");
+
     }
 
     @AfterMethod
